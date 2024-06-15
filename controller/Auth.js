@@ -69,7 +69,7 @@ exports.login = async (req,res) => {
             });
         }
         //check user exist or not
-        const user = await User.findOne({email});
+        let user = await User.findOne({email});
         //if not a registered user
         if(!user){
             return res.status(400).json({
@@ -91,9 +91,10 @@ exports.login = async (req,res) => {
                                     expiresIn:"2h"
                                 });
 
-            // user = user.toObject();                    
+            user = user.toObject();                    
             user.token = token;
             user.password = undefined; 
+            console.log(token);
             
             const options = {
                 expiresIn: new Date( Date.now() + 3 * 24 * 60 * 60 * 1000),
@@ -114,12 +115,13 @@ exports.login = async (req,res) => {
                 message:"Password does not match",
             });
         }
-        
-
-
 
     }
     catch(error){
-
+        console.log(error);
+        return res.status(500).json({
+            success:false,
+            message:'Login Failure',
+        });
     }
 }
