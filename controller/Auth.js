@@ -97,16 +97,24 @@ exports.login = async (req,res) => {
             console.log(token);
             
             const options = {
-                expiresIn: new Date( Date.now() + 3 * 24 * 60 * 60 * 1000),
+                expiresIn: new Date( Date.now() + 3* 24 * 60 * 60 * 1000),
                 httpOnly: true,
             }
             
-            res.cookie("utkarshCookie", token, options).status(200).json({
+            res.cookie("Cookie", token, options).status(200).json({
                 success:true,
                 token,
                 user,
                 message:"User logged in Successfully",
             });
+            
+
+            // res.status(200).json({
+            //     success:true,
+            //     token,
+            //     user,
+            //     message:'User Logged in successfully',
+            // });
         }
         else{
             //password does not match
